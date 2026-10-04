@@ -1,0 +1,52 @@
+@font-face {
+    font-family: c54Royal;
+    src: url('./assets/C54royal-Regular.woff');
+} 
+html {
+    font-size: 1vw;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+h1, h3 {
+    font-family: 'C54Royal';
+    color: white;
+    display: block;
+    position: relative;
+}
+h1 {
+    font-size: 8rem;
+}
+h3 {
+    font-size: 4rem;
+}
+#Wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.titles {
+    position: relative;
+    z-index: 10;
+    top: 0px;
+}
+#Truth {
+    top: 0.7rem;
+    left: 5%;
+}
+#And {
+    top: -6.4rem;
+    left: 22%;
+}
+#Beauty {
+    top: -14.4rem;
+    left: 16%;
+}
+#Age {
+    top: -20rem;
+    left: 22%;
+    font-size: 3rem;
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tessellated Rose Pattern</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <script>
+    // Penrose Tiling L-System
+// Implementation by Justin Law (https://www.openprocessing.org/sketch/15493)
+// This code is in the public domain.
+
+let tiles = [];
+let inflationRule = {
+  W: "YF++ZF----XF[-YF----WF]++",
+  X: "+YF--ZF[---WF--XF]+",
+  Y: "-WF++XF[+++YF++ZF]-",
+  Z: "--YF++++WF[+ZF++++XF]--XF",
+};
+
+let angle;
+
+const PHI = (1 + Math.sqrt(5)) / 2; // Golden Ratio
+
+function setup() {
+  createCanvas(1200, 1200);
+  background(255);
+  stroke(0, 0, 0, 0);
+
+  // Create axiom
+  tiles.push(new PenroseTile("W", 0, 0, 0, width/2));
+
+  // Apply inflation rule 4 times
+  for (let i = 0; i < 4; i++) {
+    inflateTiles();
+  }
+
+  // Draw the tiles
+  for (let i = 0; i < tiles.length/4; i++) {
+    tiles[i].render();
+  }
+}
+
+function inflateTiles() {
+  let nextGeneration = [];
+  for (let i = 0; i < tiles.length/2; i++) {
+    let tile = tiles[i];
+    let instructions = inflationRule[tile.type];
+    for (let j = 0; j < instructions.length; j++) {
+      let c = instructions.charAt(j);
+      if (c == 'F') {
+        nextGeneration.push(tile.createTile(tile.type));
+      } else if (c == '+') {
+        tile.rotateTile(36);
+      } else if (c == '-') {
+        tile.rotateTile(-36);
+      } else if (c == '[') {
+        tile.pushTile();
+      } else if (c == ']') {
+        tile.popTile();
+      } else {
+        let type = c;
+        let newTile = tile.createTile(type);
+        nextGeneration.push(newTile);
+        tile = newTile;
+      }
+    }
+  }
+  tiles = nextGeneration;
+}
+
+function PenroseTile(type, x, y, angle, size) {
+  this.type = type;
+  this.x = x;
+  this.y = y;
+  this.angle = angle;
+  this.size = size;
+  this.history = [createVector(x, y)];
+
+  this.rotateTile = function(a) {
+    this.angle += a;
+  }
+
+  this.pushTile = function() {
+    this.history.push(createVector(this.x, this.y));
+  }
+
+  this.popTile = function() {
+    let v = this.history.pop();
+    this.x = v.x;
+    this.y = v.y;
+  }
+
+  this.createTile = function(type) {
+    let newSize = this.size / PHI;
+    let newX = this.x + cos(radians(this.angle)) * this.size;
+    let newY = this.y + sin(radians(this.angle)) * this.size;
+    return new PenroseTile(type, newX, newY, this.angle, newSize);
+  }
+
+  this.render = function() {
+    push();
+    translate(this.x, this.y);
+    rotate(radians(this.angle));
+    if (this.type == "W") {
+      this.drawKite();
+    } else if (this.type == "X") {
+      this.drawDart();
+    }
+    pop();
+  }
+  this.drawKite = function() {
+  fill(0, 120, 255, 100);
+  beginShape();
+  // Draw a Lissajous curve inside the kite
+  drawLissajous(this.size / 2, this.size / 2, 5, 4, radians(90), this.size / 2);
+  endShape(CLOSE);
+}
+
+this.drawDart = function() {
+  fill(255, 120, 0, 100);
+  beginShape();
+  // Draw a Lissajous curve inside the dart
+  drawLissajous(this.size / 2, this.size / 2, 3, 4, radians(90), this.size / 2);
+  endShape(CLOSE);
+}
+
+// Function to draw a Lissajous curve
+function drawLissajous(A, B, a, b, delta, size) {
+  let points = [];
+  let step = TWO_PI / 100; // Increase for finer curves
+
+  for (let t = 0; t < TWO_PI; t += step) {
+    let x = A * sin(a * t + delta);
+    let y = B * sin(b * t);
+    points.push(createVector(x, y));
+  }
+
+}
+}
+
+
+    </script>
+</body>
+</html>

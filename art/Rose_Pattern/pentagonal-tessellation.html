@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tessellated Rose Pattern</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <script>
+   let tileSize = 50;
+let patterns = [];
+
+function setup() {
+  createCanvas(800, 800);
+  noLoop();
+  angleMode(DEGREES);
+  tileSize = min(width, height) / 10; // Adjust grid size based on canvas size
+}
+
+function draw() {
+  background(255);
+  stroke(255, 255, 255, 100);
+
+  for (let x = 0; x < width; x += tileSize * 1.5) {
+    for (let y = 0; y < height; y += tileSize * sqrt(3)) {
+      push();
+      translate(x, y);
+      drawCairoTile();
+      pop();
+
+      push();
+      translate(x + tileSize * 0.75, y + tileSize * sqrt(3) / 2);
+      rotate(180);
+      drawCairoTile();
+      pop();
+    }
+  }
+}
+
+function drawCairoTile() {
+  let angles = [120, -95, 120, 72, -120, 35, -72, 120, -135];
+  let sides = [3, 5, 7, 11, 13, 11, 9, 7, 3]; // Lengths relative to tileSize
+  beginShape();
+  fill(226, 4, 85, 20);
+
+  let currentAngle = 0;
+  for (let i = 0; i < angles.length; i++) {
+    let len = tileSize * sides[i];
+    let x = cos(currentAngle) * len;
+    let y = sin(currentAngle) * len;
+    vertex(x, y);
+    //curveVertex(x , y , y * 2);
+    bezierVertex(x , y , x * 1.1, y * 1.1, x*sides[i]/2, y+sides[i]/2);
+    currentAngle += angles[i];
+    createPattern(50);
+  }
+  endShape(CLOSE);
+}
+
+function createPattern(size) {
+  // This function would create the flower pattern to be used within the tiles
+  // It's not implemented here, but this is where you would do it
+    // Define the drawing of a rose here
+
+  // Drawing a simple rose pattern just for demonstration
+  // You would replace this with your actual rose drawing logic
+  for (let angle = 0; angle < TWO_PI; angle += 0.1) {
+    const r = size / 2 * cos(4 * angle); // Rose equation, adjust as needed
+    const posX = r * cos(angle);
+    const posY = r * sin(angle);
+    vertex(posX, posY);
+  }
+}
+
+
+
+    </script>
+</body>
+</html>

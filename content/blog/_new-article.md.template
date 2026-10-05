@@ -1,0 +1,15 @@
+---
+Title: "Your Article Title"
+Date: 2026-01-31
+Author: "Jon Wretlind"
+Description: "One or two sentences shown on the article card in the blog list."
+Image: assets/articles/your-image.jpg
+Tags: "Design, Technology"
+---
+
+Write the article in Markdown here.
+
+## A subheading
+
+Paragraphs, *italics*, **bold**, [links](https://example.com), lists and
+images (`![alt](%base_url%/assets/articles/another-image.jpg)`) all work.

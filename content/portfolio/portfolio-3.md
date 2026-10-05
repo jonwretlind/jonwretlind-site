@@ -2,10 +2,6 @@
 Title: Generative Art and Design Using p5js
 --- 
 <div id="Portfolio3">
-  <div class="tabs">
-    <div class="tab tab-1 active">Static Images</div>
-    <div class="tab tab-2">Live Generative Art</div>
-  </div>
   <div class="tabs-content tabs-content-1 active">
     <!-- begin Slider -->
     <div id="portfolioSlider1">

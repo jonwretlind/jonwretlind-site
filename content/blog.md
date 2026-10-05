@@ -1,7 +1,4 @@
 ---
 Title: Blog
-markdown: 1
 ---
-<div class="blog-content" markdown="1">
-<!-- Add your blog content here -->
-</div>
+<p class="intro-text">Thoughts and insights on the intersection of design, economics and AI.</p>
